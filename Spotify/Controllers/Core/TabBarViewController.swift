@@ -34,7 +34,6 @@ class TabBarViewController: UITabBarController {
         searchNav.tabBarItem  = UITabBarItem(title: "Search", image: UIImage(systemName: "magnifyingglass"), tag: 1)
         libraryNav.tabBarItem = UITabBarItem(title: "Library", image: UIImage(systemName: "books.vertical"), tag: 1)
         
-        
         viewControllers = [homeNav, searchNav, libraryNav]
     }
     
