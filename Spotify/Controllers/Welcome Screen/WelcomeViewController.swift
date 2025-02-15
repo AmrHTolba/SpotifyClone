@@ -13,6 +13,8 @@ class WelcomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        print(AuthManager.clientID)
+        print(AuthManager.clientSecret)
     }
 
     

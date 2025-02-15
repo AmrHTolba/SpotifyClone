@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		E56DB1282D5F668E005D9098 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = E56DB1272D5F668E005D9098 /* Config.xcconfig */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		E56DB0B62D5E40D5005D9098 /* Spotify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spotify.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E56DB1272D5F668E005D9098 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -45,6 +50,7 @@
 		E56DB0AD2D5E40D5005D9098 = {
 			isa = PBXGroup;
 			children = (
+				E56DB1272D5F668E005D9098 /* Config.xcconfig */,
 				E56DB0B82D5E40D5005D9098 /* Spotify */,
 				E56DB0B72D5E40D5005D9098 /* Products */,
 			);
@@ -122,6 +128,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E56DB1282D5F668E005D9098 /* Config.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,6 +201,7 @@
 		};
 		E56DB0CC2D5E40D7005D9098 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E56DB1272D5F668E005D9098 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -257,6 +265,7 @@
 		};
 		E56DB0CD2D5E40D7005D9098 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E56DB1272D5F668E005D9098 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
