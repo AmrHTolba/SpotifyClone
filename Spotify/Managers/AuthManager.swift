@@ -28,7 +28,7 @@ final class AuthManager {
         let baseUrl = "https://accounts.spotify.com/authorize?"
         let scope = "user-top-read"
         let redirectURI = "https://github.com/AmrHTolba"
-        let string = baseUrl + "response_type=code&client_id=\(AuthManager.clientID)&scope=\(scope)&redirect_uri=\(redirectURI)"
+        let string = baseUrl + "response_type=code&client_id=\(AuthManager.clientID)&scope=\(scope)&redirect_uri=\(redirectURI)&show_dialog=TRUE"
         return URL(string: string)
         
     }

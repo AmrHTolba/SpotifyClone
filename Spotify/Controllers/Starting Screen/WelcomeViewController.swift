@@ -28,6 +28,7 @@ class WelcomeViewController: UIViewController {
         setupUI()
         print(AuthManager.clientID)
         print(AuthManager.clientSecret)
+        print(AuthManager.shared.signInUrl?.absoluteString)
     }
     
     override func viewDidLayoutSubviews() {
@@ -40,6 +41,7 @@ class WelcomeViewController: UIViewController {
         self.title = "Spotify"
         self.view.backgroundColor = .systemGreen
         setupButton()
+        
     }
     
     private func setupButton() {
@@ -50,7 +52,6 @@ class WelcomeViewController: UIViewController {
             y: view.height-100-view.safeAreaInsets.bottom,
             width: view.width-40,
             height: 50)
-        
     }
     
     @objc func didTapSignIn() {
@@ -59,8 +60,17 @@ class WelcomeViewController: UIViewController {
     
     private func pushNewVC() {
         let authVC = AuthViewController()
+        authVC.completionHandler = { [weak self] success in
+            DispatchQueue.main.async {
+                self?.handleSignIn(success: success)
+            }
+        }
         authVC.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(authVC, animated: true)
+    }
+    
+    private func handleSignIn(success: Bool) {
+        // Log user in or check for error
     }
 
 }
