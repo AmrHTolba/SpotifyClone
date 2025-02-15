@@ -8,12 +8,19 @@
 import UIKit
 
 class HomeViewController: UIViewController {
-
+    
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        setupUI()
     }
+    
+    // MARK: - Setup UI
 
-
+    
+    private func setupUI() {
+        
+    }
 }
 

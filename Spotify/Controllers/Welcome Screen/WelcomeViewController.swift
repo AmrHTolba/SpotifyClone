@@ -8,10 +8,13 @@
 import UIKit
 
 class WelcomeViewController: UIViewController {
-
+    
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        print(AuthManager.clientID)
+        print(AuthManager.clientSecret)
     }
 
     
