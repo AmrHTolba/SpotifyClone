@@ -26,8 +26,8 @@ class WelcomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        print(AuthManager.clientID)
-        print(AuthManager.clientSecret)
+        print(AuthManager.Constants.clientID)
+        print(AuthManager.Constants.clientSecret)
         print(AuthManager.shared.signInUrl?.absoluteString)
     }
     
