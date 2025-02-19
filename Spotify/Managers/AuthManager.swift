@@ -68,15 +68,16 @@ final class AuthManager {
             return
         }
         
-        let task = URLSession.shared.dataTask(with: request) { data, _, error in
+        let task = URLSession.shared.dataTask(with: request) { [weak self] data, _, error in
             guard let data = data, error == nil else {
                 completion(false)
                 return
             }
             
             do {
-                let json = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
-                print("JSON is \(json)")
+                let results = try JSONDecoder().decode(AuthResponse.self, from: data)
+                self?.cashToken(result: results)
+                completion(true)
             } catch {
                 print("Failed to parse JSON \(error.localizedDescription)")
                 completion(false)
@@ -116,8 +117,10 @@ final class AuthManager {
         
     }
     
-    private func cashToken() {
-        
+    private func cashToken(result: AuthResponse) {
+        UserDefaults.standard.set(result.accessToken, forKey: "accessToken")
+        UserDefaults.standard.set(result.refreshToken, forKey: "refreshToken")
+        UserDefaults.standard.set(Date().addingTimeInterval(TimeInterval(result.expiresIn)), forKey: "expiration")
     }
     
     
