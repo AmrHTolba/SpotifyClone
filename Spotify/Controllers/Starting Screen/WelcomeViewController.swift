@@ -26,9 +26,6 @@ class WelcomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        print(AuthManager.Constants.clientID)
-        print(AuthManager.Constants.clientSecret)
-        print(AuthManager.shared.signInUrl?.absoluteString)
     }
     
     override func viewDidLayoutSubviews() {
@@ -71,6 +68,15 @@ class WelcomeViewController: UIViewController {
     
     private func handleSignIn(success: Bool) {
         // Log user in or check for error
+        
+        guard success else {
+            showCancelAlert(title: "Oops", message: "Something went wrong while signing you in. Please try again later.")
+            return
+        }
+        
+        let tabBarVC = TabBarViewController()
+        tabBarVC.modalPresentationStyle = .fullScreen
+        present(tabBarVC, animated: true)
     }
 
 }
