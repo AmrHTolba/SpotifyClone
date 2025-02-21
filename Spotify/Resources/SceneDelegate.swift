@@ -30,6 +30,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window?.rootViewController = navVC
         }
         window?.makeKeyAndVisible()
+        AuthManager.shared.refreshAccessToken { success in
+            print(success)
+        }
         
         
     }
