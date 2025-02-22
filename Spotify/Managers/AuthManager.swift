@@ -11,7 +11,12 @@ final class AuthManager {
     // MARK: - Shared
     static let shared = AuthManager()
     
+    private init() {}
+    
     // MARK: - Properties
+    private var refreshingToken = false
+    private var onRefreshBlocks = [(String) -> Void]()
+    
     public var signInUrl: URL? {
         let baseUrl = "https://accounts.spotify.com/authorize?"
         let params = [
@@ -24,8 +29,6 @@ final class AuthManager {
         return URL(string: baseUrl + params)
         
     }
-    
-    private init() {}
     
     var isSignedIn: Bool {
         accessToken != nil
@@ -53,11 +56,31 @@ final class AuthManager {
         requestToken(grantType: "authorization_code",code: code, completion: completion)
     }
     
+    public func withValidTOken(completion: @escaping ((String) -> Void)) {
+        guard !refreshingToken else {
+            onRefreshBlocks.append(completion)
+            return
+        }
+        
+        if shouldRefreshToken {
+            refreshAccessToken { [weak self] success in
+                if success {
+                    if let token = self?.accessToken, success{
+                        completion(token)
+                    }
+                }
+            }
+        } else if let token = accessToken {
+            completion(token)
+        }
+    }
+    
     public func refreshAccessToken(completion: @escaping (Bool) -> Void) {
-//        guard shouldRefreshToken else {
-//            completion(true)
-//            return
-//        }
+        guard !refreshingToken else { return }
+        guard shouldRefreshToken else {
+            completion(true)
+            return
+        }
         
         guard let refreshToken = self.refreshToken else {
             print("No refresh token available")
@@ -72,7 +95,7 @@ final class AuthManager {
             print("Couldn't get URL")
             return
         }
-        
+        refreshingToken = true
         var components = URLComponents()
             components.queryItems = [
                 URLQueryItem(name: "grant_type", value: grantType)
@@ -93,21 +116,24 @@ final class AuthManager {
             }
         
         let task = URLSession.shared.dataTask(with: request) { [weak self] data, _, error in
-                guard let data = data, error == nil else {
-                    completion(false)
-                    return
-                }
-
-                do {
-                    let results = try JSONDecoder().decode(AuthResponse.self, from: data)
-                    self?.cacheToken(result: results)
-                    completion(true)
-                } catch {
-                    print("Failed to decode JSON: \(error.localizedDescription)")
-                    completion(false)
-                }
+            self?.refreshingToken = false
+            guard let data = data, error == nil else {
+                completion(false)
+                return
             }
-            task.resume()
+
+            do {
+                let results = try JSONDecoder().decode(AuthResponse.self, from: data)
+                self?.onRefreshBlocks.forEach { $0(results.accessToken) }
+                self?.onRefreshBlocks.removeAll()
+                self?.cacheToken(result: results)
+                completion(true)
+            } catch {
+                print("Failed to decode JSON: \(error.localizedDescription)")
+                completion(false)
+            }
+        }
+        task.resume()
     }
     
     
@@ -139,6 +165,7 @@ final class AuthManager {
             return
         }
         
+        refreshingToken = true
         var components = URLComponents()
         components.queryItems = [
             URLQueryItem(name: "grant_type", value: "refresh_token"),

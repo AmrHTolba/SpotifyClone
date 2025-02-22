@@ -6,3 +6,16 @@
 //
 
 import Foundation
+
+final class APICaller {
+    // MARK: - Shared
+    static let shared = APICaller()
+    
+    private init() {}
+    
+    // MARK: - Methods
+    public func getCurrentUserProfile(completion: @escaping (Result<UserProfile, Error>) -> Void) {
+        
+    }
+    
+}
