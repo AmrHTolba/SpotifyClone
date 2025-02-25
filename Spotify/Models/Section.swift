@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct Settings {
+struct Section {
     let title: String
     let options: [Options]
 }
