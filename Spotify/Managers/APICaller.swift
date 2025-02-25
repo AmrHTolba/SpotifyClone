@@ -39,7 +39,7 @@ final class APICaller {
                 }
                 
                 do {
-                    let results = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                    let results = try JSONDecoder().decode(UserProfile.self, from: data)
                     print(results)
                 } catch {
                     completion(.failure(error))
