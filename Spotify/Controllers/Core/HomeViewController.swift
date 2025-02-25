@@ -17,10 +17,15 @@ class HomeViewController: UIViewController {
     }
     
     // MARK: - Setup UI
-
-    
     private func setupUI() {
-        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .done, target: self, action: #selector(didTapSettings))
+    }
+    
+    @objc private func didTapSettings() {
+        let settingsVC = ProfileViewController()
+        settingsVC.title = "Profile"
+        settingsVC.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(settingsVC, animated: true)
     }
 }
 

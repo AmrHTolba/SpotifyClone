@@ -13,6 +13,26 @@ final class AuthManager {
     
     private init() {}
     
+    // MARK: - Constants
+    private struct Constants {
+        static var clientID: String {
+            guard let id = Bundle.main.object(forInfoDictionaryKey: "DevClientID") as? String else {
+                fatalError("Couldn't get clientID")
+            }
+            return id
+        }
+        
+        static var clientSecret: String {
+            guard let id = Bundle.main.object(forInfoDictionaryKey: "DevClientSecret") as? String else {
+                fatalError("Couldn't get clientID")
+            }
+            return id
+        }
+        static let tokenAPIUrl = "https://accounts.spotify.com/api/token"
+        static let redirectURI = "https://github.com/AmrHTolba"
+        static let scope = "user-top-read%20playlist-modify-public%20playlist-read-private%20playlist-modify-private%20user-follow-read%20user-library-read%20user-read-email%20user-read-private"
+    }
+    
     // MARK: - Properties
     private var refreshingToken = false
     private var onRefreshBlocks = [(String) -> Void]()
@@ -216,25 +236,4 @@ final class AuthManager {
         }
     
     
-}
-
-
-// MARK: - Constants
-private struct Constants {
-    static var clientID: String {
-        guard let id = Bundle.main.object(forInfoDictionaryKey: "DevClientID") as? String else {
-            fatalError("Couldn't get clientID")
-        }
-        return id
-    }
-    
-    static var clientSecret: String {
-        guard let id = Bundle.main.object(forInfoDictionaryKey: "DevClientSecret") as? String else {
-            fatalError("Couldn't get clientID")
-        }
-        return id
-    }
-    static let tokenAPIUrl = "https://accounts.spotify.com/api/token"
-    static let redirectURI = "https://github.com/AmrHTolba"
-    static let scope = "user-top-read%20playlist-modify-public%20playlist-read-private%20playlist-modify-private%20user-follow-read%20user-library-read%20user-read-email"
 }

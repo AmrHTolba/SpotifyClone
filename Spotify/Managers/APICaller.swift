@@ -13,6 +13,11 @@ final class APICaller {
     
     private init() {}
     
+    // MARK: - Constants
+    private struct Constants {
+        static let baseAPIURL = "https://api.spotify.com/v1"
+    }
+    
     // MARK: - Enum
     enum HTTPMethod: String {
         case GET
@@ -34,11 +39,11 @@ final class APICaller {
                 }
                 
                 do {
-                    let results = try JSONSerialization.jsonObject(with: data)
+                    let results = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
                     print(results)
                 } catch {
                     completion(.failure(error))
-                }
+                }       
             }
             task.resume()
         }
@@ -48,7 +53,7 @@ final class APICaller {
         AuthManager.shared.withValidTOken { token in
             guard let apiURL = url else { return }
             var request  = URLRequest(url: apiURL)
-            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorizaton")
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
             request.httpMethod = type.rawValue
             request.timeoutInterval = 30
             completion(request)
@@ -56,6 +61,4 @@ final class APICaller {
     }
 }
 
-struct Constants {
-    static let baseAPIURL = "https://api.spotify.com/v1"
-}
+
