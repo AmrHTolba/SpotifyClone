@@ -41,6 +41,7 @@ final class APICaller {
                 do {
                     let results = try JSONDecoder().decode(UserProfile.self, from: data)
                     print(results)
+                    completion(.success(results))
                 } catch {
                     completion(.failure(error))
                 }       
