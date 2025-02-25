@@ -38,4 +38,10 @@ extension UIViewController {
         alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
     }
+    
+    func pushViewController(_ viewController: UIViewController, title: String) {
+            viewController.title = title
+            viewController.navigationItem.largeTitleDisplayMode = .never
+            navigationController?.pushViewController(viewController, animated: true)
+        }
 }
