@@ -68,10 +68,7 @@ class SettingsViewController: UIViewController {
     }
     
     private func viewProfile() {
-        let profileVC = ProfileViewController()
-        profileVC.title = "Profile"
-        profileVC.navigationItem.largeTitleDisplayMode = .never
-        navigationController?.pushViewController(profileVC, animated: true)
+        pushViewController(ProfileViewController(), title: "Profile")
     }
 }
 
