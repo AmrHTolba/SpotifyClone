@@ -14,9 +14,7 @@ struct Artist: Codable {
     let externalUrls: [String: String]
     
     enum CodingKeys: String, CodingKey {
-        case id
-        case name
-        case type
+        case id, name, type
         case externalUrls = "external_urls"
     }
 }

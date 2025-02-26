@@ -9,11 +9,7 @@ import Foundation
 
 
 struct NewReleases: Codable {
-    let albums: [AlbumsResponse]
-    
-    enum CodingKeys: String, CodingKey {
-        case albums
-    }
+    let albums: AlbumsResponse
 }
 
 struct AlbumsResponse: Codable {
@@ -25,6 +21,7 @@ struct Album: Codable {
     let artists: [Artist]
     let availableMarkets: [String]
     let id: String
+    let name: String
     let images: [APIImage]
     let releaseDate: String
     let totalTracks: Int
@@ -34,7 +31,7 @@ struct Album: Codable {
         case availableMarkets = "available_markets"
         case releaseDate = "release_date"
         case totalTracks = "total_tracks"
-        case artists, id, images
+        case artists, id, images, name
         
     }
 }
