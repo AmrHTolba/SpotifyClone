@@ -12,7 +12,7 @@ struct UserProfile: Codable {
     let explicitContent: [String: Bool]
     let externalUrls: [String: String]
     let id: String
-    let images: [UserImage]
+    let images: [APIImage]
     let product: String
 
     enum CodingKeys: String, CodingKey {
@@ -25,7 +25,4 @@ struct UserProfile: Codable {
         }
 }
 
-struct UserImage: Codable {
-    let url: String
-    let height, width: Int
-}
+
