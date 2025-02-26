@@ -6,3 +6,26 @@
 //
 
 import Foundation
+
+struct UserProfile: Codable {
+    let country, displayName, email: String
+    let explicitContent: [String: Bool]
+    let externalUrls: [String: String]
+    let id: String
+    let images: [UserImage]
+    let product: String
+
+    enum CodingKeys: String, CodingKey {
+        case country
+        case displayName = "display_name"
+        case email
+        case explicitContent = "explicit_content"
+        case externalUrls = "external_urls"
+        case id, images, product
+        }
+}
+
+struct UserImage: Codable {
+    let url: String
+    let height, width: Int
+}
