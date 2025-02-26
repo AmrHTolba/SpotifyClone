@@ -71,6 +71,36 @@ class HomeViewController: UIViewController {
         
     }
     
+    @objc private func didTapSettings() {
+        pushViewController(SettingsViewController(), title: "Settings")
+    }
+}
+
+
+
+extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 20
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+        if indexPath.section == 0 {
+            cell.backgroundColor = .systemCyan
+        } else if indexPath.section == 1 {
+            cell.backgroundColor = .systemGray
+        } else if indexPath.section == 2 {
+            cell.backgroundColor = .systemBlue
+        }
+        
+        return cell
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 2
+    }
+    
+    
     private static func createSectionLayout(section: Int) -> NSCollectionLayoutSection {
         switch section {
         case 0:
@@ -132,34 +162,4 @@ class HomeViewController: UIViewController {
             return section
         }
     }
-    
-    @objc private func didTapSettings() {
-        pushViewController(SettingsViewController(), title: "Settings")
-    }
-}
-
-
-
-extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-        if indexPath.section == 0 {
-            cell.backgroundColor = .systemCyan
-        } else if indexPath.section == 1 {
-            cell.backgroundColor = .systemGray
-        } else if indexPath.section == 2 {
-            cell.backgroundColor = .systemBlue
-        }
-        
-        return cell
-    }
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
-    }
-    
 }
