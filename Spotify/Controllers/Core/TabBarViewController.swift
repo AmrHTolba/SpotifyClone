@@ -42,6 +42,7 @@ class TabBarViewController: UITabBarController {
         rootViewController.navigationItem.largeTitleDisplayMode = titleDisplayMode
         let navController = UINavigationController(rootViewController: rootViewController)
         navController.navigationBar.prefersLargeTitles = true
+        navController.navigationBar.tintColor = .label
         return navController
     }
 }
