@@ -30,8 +30,59 @@ final class APICaller {
     }
     
     // MARK: - Methods
+    
+    
     public func getCurrentUserProfile(completion: @escaping (Result<UserProfile, Error>) -> Void) {
-        createRequest(url: URL(string: "\(Constants.baseAPIURL)/me"), type: .GET) { baseRequest in
+        getAPICall(urlCompletion: "/me", with: .GET, resultType: UserProfile.self, completion: completion)
+    }
+    
+    public func getNewRlease(completion: @escaping (Result<NewReleases, Error>) -> Void) {
+        getAPICall(urlCompletion: "/browse/new-releases?limit=50", with: .GET, resultType: NewReleases.self, completion: completion)
+    }
+    
+//    public func getCurrentUserProfile(completion: @escaping (Result<UserProfile, Error>) -> Void) {
+//        createRequest(url: URL(string: "\(Constants.baseAPIURL)/me"), type: .GET) { baseRequest in
+//            let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
+//                guard let data = data, error == nil else {
+//                    completion(.failure(APIError.failedToGetData))
+//                    return
+//                }
+//                
+//                do {
+//                    let results = try JSONDecoder().decode(UserProfile.self, from: data)
+//                    print(results)
+//                    completion(.success(results))
+//                } catch {
+//                    completion(.failure(error))
+//                }       
+//            }
+//            task.resume()
+//        }
+//    }
+     
+//    public func getNewReleases(completion: @escaping (Result<NewReleases, Error>) -> Void) {
+//        createRequest(url: URL(string: "\(Constants.baseAPIURL)/browse/new-releases?limit=2"), type: .GET) { baseRequest in
+//            let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
+//                guard let data = data, error == nil else {
+//                    completion(.failure(APIError.failedToGetData))
+//                    return
+//                }
+//                
+//                do {
+//                    let results = try JSONDecoder().decode(NewReleases.self, from: data)
+//                    print(results)
+//                    completion(.success(results))
+//                } catch {
+//                    completion(.failure(error))
+//                }
+//            }
+//            task.resume()
+//        }
+//    }
+    
+    // MARK: - Generic Methods
+    private func getAPICall<T: Decodable>(urlCompletion: String, with type: HTTPMethod,resultType: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
+        createRequest(url: URL(string: Constants.baseAPIURL+urlCompletion), type: type) { baseRequest in
             let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
                 guard let data = data, error == nil else {
                     completion(.failure(APIError.failedToGetData))
@@ -39,17 +90,16 @@ final class APICaller {
                 }
                 
                 do {
-                    let results = try JSONDecoder().decode(UserProfile.self, from: data)
+                    let results = try JSONDecoder().decode(resultType.self, from: data)
                     print(results)
                     completion(.success(results))
                 } catch {
                     completion(.failure(error))
-                }       
+                }
             }
             task.resume()
         }
     }
-        
     private func createRequest(url: URL?, type: HTTPMethod ,completion: @escaping (URLRequest) -> Void) {
         AuthManager.shared.withValidTOken { token in
             guard let apiURL = url else { return }
@@ -60,6 +110,8 @@ final class APICaller {
             completion(request)
         }
     }
+    
+    
 }
 
 
