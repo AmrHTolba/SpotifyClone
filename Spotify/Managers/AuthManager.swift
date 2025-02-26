@@ -83,7 +83,7 @@ final class AuthManager {
         }
         
         if shouldRefreshToken {
-            refreshAccessToken { [weak self] success in
+            refreshIfNeeded { [weak self] success in
                 if success {
                     if let token = self?.accessToken, success{
                         completion(token)
@@ -95,19 +95,21 @@ final class AuthManager {
         }
     }
     
-    public func refreshAccessToken(completion: @escaping (Bool) -> Void) {
+    public func refreshIfNeeded(completion: ((Bool) -> Void)?) {
         guard !refreshingToken else { return }
         guard shouldRefreshToken else {
-            completion(true)
+            completion?(true)
             return
         }
         
         guard let refreshToken = self.refreshToken else {
             print("No refresh token available")
-            completion(false)
+            completion?(false)
             return
         }
-        requestToken(grantType: "refresh_token", refreshToken: refreshToken, completion: completion)
+        requestToken(grantType: "refresh_token", refreshToken: refreshToken) { sucess in
+            completion?(sucess)
+        }
     }
     
     private func requestToken(grantType: String, code: String? = nil, refreshToken: String? = nil,  completion: @escaping ((Bool) -> Void)) {
