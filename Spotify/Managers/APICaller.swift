@@ -44,8 +44,8 @@ final class APICaller {
         getAPICall(urlCompletion: "/browse/featured-playlists?limit=1", with: .GET, resultType: FeaturedPlaylistResponse.self, completion: completion)
     }
     
-//    public func getCurrentUserProfile(completion: @escaping (Result<UserProfile, Error>) -> Void) {
-//        createRequest(url: URL(string: "\(Constants.baseAPIURL)/me"), type: .GET) { baseRequest in
+//    public func getrecommend(completion: @escaping (Result<RecommendedGenres, Error>) -> Void) {
+//        createRequest(url: URL(string: "\(Constants.baseAPIURL)/recommendations/available-genre-seeds"), type: .GET) { baseRequest in
 //            let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
 //                guard let data = data, error == nil else {
 //                    completion(.failure(APIError.failedToGetData))
@@ -53,9 +53,8 @@ final class APICaller {
 //                }
 //                
 //                do {
-//                    let results = try JSONDecoder().decode(UserProfile.self, from: data)
+//                    let results = try JSONSerialization.jsonObject(with: data)
 //                    print(results)
-//                    completion(.success(results))
 //                } catch {
 //                    completion(.failure(error))
 //                }       
@@ -88,7 +87,8 @@ final class APICaller {
     private func getAPICall<T: Decodable>(urlCompletion: String, with type: HTTPMethod,resultType: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
         createRequest(url: URL(string: Constants.baseAPIURL+urlCompletion), type: type) { baseRequest in
             let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
-                guard let data = data, error == nil else {
+                guard let data = data, error == nil, !data.isEmpty else {
+                    print("⚠️ Empty Response Data from Spotify API!")
                     completion(.failure(APIError.failedToGetData))
                     return
                 }
@@ -98,6 +98,7 @@ final class APICaller {
                     print(results)
                     completion(.success(results))
                 } catch {
+                    print("Decoding Failed")
                     completion(.failure(error))
                 }
             }
