@@ -40,6 +40,10 @@ final class APICaller {
         getAPICall(urlCompletion: "/browse/new-releases?limit=50", with: .GET, resultType: NewReleases.self, completion: completion)
     }
     
+    public func getFeaturedPlaylists(completion: @escaping (Result<FeaturedPlaylistResponse, Error>) -> Void) {
+        getAPICall(urlCompletion: "/browse/featured-playlists?limit=1", with: .GET, resultType: FeaturedPlaylistResponse.self, completion: completion)
+    }
+    
 //    public func getCurrentUserProfile(completion: @escaping (Result<UserProfile, Error>) -> Void) {
 //        createRequest(url: URL(string: "\(Constants.baseAPIURL)/me"), type: .GET) { baseRequest in
 //            let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
